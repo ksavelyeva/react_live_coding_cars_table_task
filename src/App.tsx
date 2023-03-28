@@ -1,18 +1,60 @@
-import React from 'react';
-// import carsFromServer from './api/cars';
-// import colorsFromServer from './api/colors';
+import React, { useState } from 'react';
+import carsFromServer from './api/cars';
+import colorsFromServer from './api/colors';
 
 // 1. Render car with color
 // 2. Add ability to filter car by brand name
 // 3. Add ability to filter car by color
 
 export const App: React.FC = () => {
+  const color = carsFromServer.find(
+    colorsFromServer => color.id === car.colorId,
+  );
+
+  const [searchValue, setSearchValue] = useState('');
+  const [selectValue, setSelectValue] = useState('');
+
+  const filteredCars = carsFromServer.filter((car) => {
+    const brandMatch = car.brand.toLowerCase()
+      .includes(searchValue.toLowerCase());
+    const colorMatch = selectValue === '' || color === selectValue;
+
+    return brandMatch && colorMatch;
+  });
+
   return (
     <div>
-      <input type="search" placeholder="Find by car brand" />
+      <input
+        type="search"
+        placeholder="Find by car brand"
+        value={searchValue}
+        onChange={(event) => setSearchValue(event.target.value)}
+      />
 
-      <select>
-        <option>Chose a color</option>
+      <select
+        value={selectValue}
+        onChange={(event) => setSelectValue(event.target.value)}
+      >
+        <option
+          value=""
+        >
+          Chose a color
+        </option>
+        <option
+          value="Red"
+        >
+          Red
+        </option>
+        <option
+          value="White"
+        >
+          White
+        </option>
+        <option
+          value="Black"
+        >
+          Black
+        </option>
       </select>
 
       <table>
